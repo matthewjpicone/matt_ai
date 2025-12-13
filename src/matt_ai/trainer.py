@@ -138,11 +138,14 @@ class IterativeTrainer:
         
         # Create dataset and dataloader
         dataset = TextDataset(training_texts, self.model.tokenizer)
+        # Use multiprocessing for faster data loading when available
+        import os
+        num_workers = min(4, os.cpu_count() or 0) if os.cpu_count() else 0
         dataloader = DataLoader(
             dataset,
             batch_size=self.batch_size,
             shuffle=True,
-            num_workers=0  # Avoid multiprocessing issues
+            num_workers=num_workers
         )
         
         # Training loop
@@ -311,11 +314,12 @@ class IterativeTrainer:
             quality_scores = self._evaluate_generation_quality(generated_texts)
             
             # Filter high-quality generations
-            # Quality threshold from ethical controller or default
-            threshold = 0.6
+            # Quality threshold from ethical controller or default constant
+            DEFAULT_QUALITY_THRESHOLD = 0.6
+            threshold = DEFAULT_QUALITY_THRESHOLD
             if self.ethical_controller:
                 constraints = self.ethical_controller.get_operational_constraints()
-                threshold = constraints.get("quality_threshold", 0.6)
+                threshold = constraints.get("quality_threshold", DEFAULT_QUALITY_THRESHOLD)
             
             high_quality_texts = [
                 text for text, score in zip(generated_texts, quality_scores)
@@ -355,28 +359,41 @@ class IterativeTrainer:
         Simple heuristic-based quality evaluation.
         In production, this would use more sophisticated metrics.
         """
+        # Quality evaluation constants
+        MIN_LENGTH = 50
+        MAX_LENGTH = 500
+        MIN_WORDS = 10
+        MAX_WORDS = 100
+        MIN_DIVERSITY_RATIO = 0.5
+        
+        # Score weights
+        WEIGHT_LENGTH = 0.3
+        WEIGHT_COMPLETE = 0.2
+        WEIGHT_WORD_COUNT = 0.3
+        WEIGHT_DIVERSITY = 0.2
+        
         quality_scores = []
         
         for text in texts:
             score = 0.0
             
             # Length check (not too short, not too long)
-            if 50 < len(text) < 500:
-                score += 0.3
+            if MIN_LENGTH < len(text) < MAX_LENGTH:
+                score += WEIGHT_LENGTH
             
             # Check for complete sentences
             if text.strip().endswith(('.', '!', '?')):
-                score += 0.2
+                score += WEIGHT_COMPLETE
             
             # Check for reasonable word count
             words = text.split()
-            if 10 < len(words) < 100:
-                score += 0.3
+            if MIN_WORDS < len(words) < MAX_WORDS:
+                score += WEIGHT_WORD_COUNT
             
             # Check for diversity (not too repetitive)
             unique_words = len(set(words))
-            if len(words) > 0 and unique_words / len(words) > 0.5:
-                score += 0.2
+            if len(words) > 0 and unique_words / len(words) > MIN_DIVERSITY_RATIO:
+                score += WEIGHT_DIVERSITY
             
             quality_scores.append(min(score, 1.0))
         

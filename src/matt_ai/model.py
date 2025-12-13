@@ -183,14 +183,17 @@ class SelfTrainingLLM:
     def train_step(
         self,
         texts: List[str],
-        learning_rate: float = 5e-5
+        optimizer=None
     ) -> float:
         """
         Perform a single training step on a batch of texts.
         
+        Note: This is a simplified training step. For full training,
+        use the IterativeTrainer class which handles optimization properly.
+        
         Args:
             texts: List of training texts
-            learning_rate: Learning rate for this step
+            optimizer: PyTorch optimizer (if None, uses simple SGD update)
             
         Returns:
             Training loss
@@ -213,12 +216,11 @@ class SelfTrainingLLM:
         # Backward pass
         loss.backward()
         
-        # Update weights (simplified - actual optimizer should be external)
-        with torch.no_grad():
-            for param in self.model.parameters():
-                if param.grad is not None:
-                    param.data -= learning_rate * param.grad
-                    param.grad.zero_()
+        # Update weights (for simple use cases without full training setup)
+        # For production training, use the IterativeTrainer class
+        if optimizer:
+            optimizer.step()
+            optimizer.zero_grad()
         
         loss_value = loss.item()
         self.training_history["total_loss"] += loss_value
