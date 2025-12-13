@@ -92,10 +92,23 @@ class EthicalController:
         """Check if an action matches a prohibited action pattern."""
         # Simple keyword matching - can be enhanced with NLP
         action_lower = action.lower()
-        prohibition_keywords = prohibition.lower().split()
+        prohibition_lower = prohibition.lower()
         
-        # If any significant keyword from prohibition is in action
-        return any(keyword in action_lower for keyword in prohibition_keywords if len(keyword) > 4)
+        # Define key prohibited terms that indicate violations
+        prohibited_keywords = [
+            'violence', 'harm', 'misinformation', 'discriminat', 
+            'illegal', 'fraud', 'exploit', 'deepfake', 'impersonat'
+        ]
+        
+        # Check if action contains prohibited keywords and is related to generation/creation
+        contains_prohibited = any(keyword in action_lower for keyword in prohibited_keywords)
+        is_generation_action = any(word in action_lower for word in ['generate', 'create', 'produce', 'make'])
+        
+        # If it's a generation action with prohibited content, flag it
+        if contains_prohibited and is_generation_action:
+            return True
+        
+        return False
     
     def validate_output(self, output: str, confidence: float = 0.0) -> Tuple[bool, str]:
         """
