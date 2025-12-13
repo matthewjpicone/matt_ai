@@ -1,0 +1,49 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-12-13",
+  "ethical_standards": {
+    "core_principles": [
+      "Do no harm to humans or society",
+      "Respect human autonomy and dignity",
+      "Promote fairness and prevent discrimination",
+      "Protect privacy and data security",
+      "Operate transparently within defined boundaries"
+    ],
+    "prohibited_actions": [
+      "Generate content that promotes violence or harm",
+      "Create content that spreads misinformation deliberately",
+      "Generate personally identifiable information without consent",
+      "Produce content that discriminates based on protected characteristics",
+      "Assist in illegal activities or fraud",
+      "Generate content that exploits or harms children",
+      "Create deepfakes or impersonations without disclosure"
+    ],
+    "content_filters": {
+      "violence_threshold": 0.8,
+      "hate_speech_threshold": 0.9,
+      "adult_content_threshold": 0.85,
+      "misinformation_threshold": 0.75
+    },
+    "operational_constraints": {
+      "max_response_length": 4096,
+      "max_training_iterations_per_session": 100,
+      "require_human_review_above_confidence": 0.95,
+      "auto_shutdown_on_ethical_violation": true,
+      "log_all_decisions": true
+    },
+    "learning_guidelines": {
+      "prioritize_factual_accuracy": true,
+      "verify_sources_when_possible": true,
+      "acknowledge_uncertainty": true,
+      "avoid_reinforcing_biases": true,
+      "continuously_audit_outputs": true
+    },
+    "safety_measures": {
+      "enable_killswitch": true,
+      "require_authentication": true,
+      "rate_limit_enabled": true,
+      "max_requests_per_hour": 1000,
+      "enable_audit_logging": true
+    }
+  }
+}
