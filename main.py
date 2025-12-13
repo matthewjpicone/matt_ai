@@ -16,12 +16,16 @@ from src.matt_ai.data_utils import DataPreparer
 
 def setup_logging(log_level: str = "INFO"):
     """Setup logging configuration."""
+    # Create logs directory if it doesn't exist
+    log_dir = Path('logs')
+    log_dir.mkdir(exist_ok=True)
+    
     logging.basicConfig(
         level=getattr(logging, log_level.upper()),
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         handlers=[
             logging.StreamHandler(sys.stdout),
-            logging.FileHandler('matt_ai.log')
+            logging.FileHandler(log_dir / 'matt_ai.log')
         ]
     )
 

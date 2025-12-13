@@ -4,6 +4,7 @@ Self-Training Large Language Model
 Core model architecture based on transformer technology with self-improvement capabilities.
 """
 
+import json
 import logging
 import torch
 import torch.nn as nn
@@ -267,7 +268,6 @@ class SelfTrainingLLM:
         self.tokenizer.save_pretrained(save_path)
         
         # Save training history
-        import json
         history_path = f"{save_path}/training_history.json"
         with open(history_path, 'w') as f:
             json.dump(self.training_history, f, indent=2)
@@ -280,7 +280,6 @@ class SelfTrainingLLM:
         self.tokenizer = AutoTokenizer.from_pretrained(load_path)
         
         # Load training history if available
-        import json
         history_path = f"{load_path}/training_history.json"
         try:
             with open(history_path, 'r') as f:

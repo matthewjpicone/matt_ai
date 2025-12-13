@@ -311,7 +311,12 @@ class IterativeTrainer:
             quality_scores = self._evaluate_generation_quality(generated_texts)
             
             # Filter high-quality generations
-            threshold = 0.6  # Quality threshold
+            # Quality threshold from ethical controller or default
+            threshold = 0.6
+            if self.ethical_controller:
+                constraints = self.ethical_controller.get_operational_constraints()
+                threshold = constraints.get("quality_threshold", 0.6)
+            
             high_quality_texts = [
                 text for text, score in zip(generated_texts, quality_scores)
                 if score > threshold
