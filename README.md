@@ -262,6 +262,8 @@ python main.py train --log-level DEBUG
 - **Violation Tracking**: Records ethical breaches
 - **Authentication**: Required for sensitive operations
 - **Auto-Shutdown**: Triggers on ethical violations
+- **Secure Model Loading**: Uses transformers library safe loading methods (avoids direct torch.load)
+- **Updated Dependencies**: Requirements specify patched versions without known vulnerabilities
 
 ## Limitations
 
