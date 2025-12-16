@@ -12,6 +12,9 @@ __all__ = [
     "EthicalController",
     "SelfTrainingLLM",
     "IterativeTrainer",
+    "WebScraper",
+    "InstructionHandler",
+    "ChatInterface",
 ]
 
 def __getattr__(name):
@@ -25,4 +28,13 @@ def __getattr__(name):
     elif name == "IterativeTrainer":
         from .trainer import IterativeTrainer
         return IterativeTrainer
+    elif name == "WebScraper":
+        from .web_scraper import WebScraper
+        return WebScraper
+    elif name == "InstructionHandler":
+        from .instruction_handler import InstructionHandler
+        return InstructionHandler
+    elif name == "ChatInterface":
+        from .chat_interface import ChatInterface
+        return ChatInterface
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
