@@ -96,8 +96,8 @@ class InstructionHandler:
         
         self.instructions.append(instruction_record)
         
-        if skill_name:
-            self.active_skills.add(skill_name)
+        # Add the skill name (either provided or auto-generated) to active skills
+        self.active_skills.add(instruction_record["skill_name"])
         
         self._save_instructions()
         

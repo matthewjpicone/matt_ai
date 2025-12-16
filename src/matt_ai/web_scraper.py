@@ -176,9 +176,14 @@ class WebScraper:
             # Convert relative URLs to absolute
             absolute_url = urljoin(base_url, href)
             
-            # Filter out non-HTTP(S) links and fragments
-            if absolute_url.startswith(('http://', 'https://')) and '#' not in absolute_url:
-                links.append(absolute_url)
+            # Filter out non-HTTP(S) links
+            if absolute_url.startswith(('http://', 'https://')):
+                # Strip fragment identifiers to avoid duplicates
+                if '#' in absolute_url:
+                    absolute_url = absolute_url.split('#')[0]
+                # Only add if not empty after stripping fragment
+                if absolute_url:
+                    links.append(absolute_url)
         
         return links
     
