@@ -48,6 +48,7 @@ datasets/
 *.tsv
 *.txt
 !requirements.txt
+instructions.json
 
 # Logs
 logs/
