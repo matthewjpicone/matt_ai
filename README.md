@@ -11,6 +11,10 @@ A self-improving AI system with built-in ethical standards and constraints. This
 - 📈 **Iterative Improvement**: Progressive self-training with quality evaluation
 - 🔍 **Continuous Monitoring**: Tracks violations and ensures compliance
 - 💾 **Checkpoint System**: Saves model states during training
+- 🌐 **Web Scraping**: Ethical autonomous data collection with robots.txt compliance and rate limiting
+- 💬 **Interactive Chat Interface**: Real-time conversation with Gradio-based web UI
+- 📚 **Instruction System**: Teach the AI new skills through custom instructions
+- 🎓 **Live Training**: Background training while interacting with the model
 
 ## Architecture
 
@@ -34,6 +38,21 @@ A self-improving AI system with built-in ethical standards and constraints. This
 4. **DataPreparer** (`src/matt_ai/data_utils.py`)
    - Prepares and cleans English text data
    - Handles data augmentation and quality control
+
+5. **WebScraper** (`src/matt_ai/web_scraper.py`)
+   - Ethical web scraping with robots.txt compliance
+   - Rate limiting and domain restrictions
+   - Error handling and statistics tracking
+
+6. **InstructionHandler** (`src/matt_ai/instruction_handler.py`)
+   - Processes and stores user instructions
+   - Manages skill teaching and learning objectives
+   - Generates training prompts from instructions
+
+7. **ChatInterface** (`src/matt_ai/chat_interface.py`)
+   - Gradio-based web interface for real-time interaction
+   - Manages background scraping and training threads
+   - Provides status monitoring and control
 
 ## Installation
 
@@ -60,7 +79,36 @@ pip install -r requirements.txt
 
 ## Usage
 
-The system provides four main operation modes:
+The system provides multiple operation modes:
+
+### Interactive Chat Application (New!)
+
+Launch the interactive chat interface with web scraping and real-time learning:
+
+```bash
+# Basic launch
+python chat_app.py
+
+# With custom settings
+python chat_app.py \
+  --model-name gpt2 \
+  --rate-limit 2.0 \
+  --max-pages-per-domain 10 \
+  --batch-size 4 \
+  --server-port 7860
+
+# Create public shareable link
+python chat_app.py --share
+```
+
+**Features:**
+- 💬 **Real-time Chat**: Interactive conversation with the AI
+- 🌐 **Web Scraping**: Autonomous data collection from websites (respects robots.txt and rate limiting)
+- 📚 **Teach Skills**: Add custom instructions to teach the AI new capabilities
+- 🎓 **Live Training**: Train the model on scraped data while chatting
+- 📊 **Status Monitoring**: Track scraping, training, and system statistics
+
+The system provides four main CLI operation modes:
 
 ### 1. Information Mode
 

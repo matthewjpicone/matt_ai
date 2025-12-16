@@ -226,7 +226,7 @@ class ChatInterface:
             self.training_status = f"Training on {len(self.scraped_texts)} texts..."
             
             try:
-                from ..matt_ai.data_utils import DataPreparer
+                from .data_utils import DataPreparer
                 data_preparer = DataPreparer()
                 
                 # Clean and prepare data
